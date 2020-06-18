@@ -14,7 +14,6 @@ unsigned int irSignal[] = {8900, 4450, 550, 600, 500, 600, 550, 1650, 550, 600, 
 void setup(void) {
   pinMode(2, OUTPUT);
   Serial.begin(115200);
-  Serial.println("setup complete");
   IPAddress staticIP(192, 168, 0, 125);
   IPAddress gateway(192, 168, 0, 1);
   IPAddress subnet(255, 255, 255, 0);
@@ -27,19 +26,20 @@ void setup(void) {
   WiFi.config(staticIP, gateway, subnet);
   server.begin();
   digitalWrite(2, LOW);
+    Serial.println("setup complete");
 }
 
 
 void transmit()
 {
   Serial.println("transmitting_init");
-  for (int i = 0; i < (sizeof(irSignal) / sizeof(irSignal[0])); i++)
+  for (int i = 0; i < 67; i++)
   {
     if (!(i & 1))
       digitalWrite(2, HIGH);
     else
       digitalWrite(2, LOW);
-    delayMicroseconds(irSignal[i] + 50);
+    delayMicroseconds(irSignal[i]);
   }
   Serial.println("transmission_complete");
   digitalWrite(2, LOW);
